@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memelicious</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="css/default.css" />
+  </head>
+  <body onload="onInit()">
+    <div class="main-layout">
+      <header class="main-header df sb ac">
+        <a class="logo" href="index.html">Memelicious</a>
+        <nav>
+          <ul class="ln df">
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">Memes</a></li>
+            <li><a href="#">About</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <div class="main-gallery">
+          <div class="selection"></div>
+        </div>
+        <div class="main-editor dn sb">
+          <div>
+            <canvas class="main-canvas" width="500" height="500"></canvas>
+            <!-- <img src="" alt=""> -->
+          </div>
+          <div class="controls df dc ac">
+            <input type="text" onkeydown="onSetText(this)" onkeyup="onSetText(this)" />
+            <section class="rich-text">
+              <div class="push df sb">
+                <input type="image" src="img/ui/aplus.png" alt="" onclick="onIncreaseFont()" />
+                <input type="image" src="img/ui/aminus.png" alt="" onclick="onDecreaseFont()" />
+                <input type="image" src="img/ui/left.png" alt="" onclick="onDecreaseFont()" />
+                <input type="image" src="img/ui/center.png" alt="" onclick="onDecreaseFont()" />
+                <input type="image" src="img/ui/right.png" alt="" onclick="onDecreaseFont()" />
+              </div>
+              <div class="df sb">
+                <select name="" id="">
+                  <option value="">font1</option>
+                  <option value="">font2</option>
+                  <option value="">font3</option>
+                  <option value="">font4</option>
+                </select>
+                <div class="palette pr dib">
+                  <input type="image" src="img/ui/palette.png" alt="" />
+                  <input type="color" onchange="onSetFillColor(this)" />
+                </div>
+                <div class="palette pr dib">
+                  <input type="image" src="img/ui/stroke.png" alt="" />
+                  <input type="color" onchange="onSetStrokeColor(this)" />
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+      <footer class="main-footer">
+        <small>Memelicious © 2021 by <strong>Daniel Bar-on</strong>. All Rights Reserved.</small>
+      </footer>
+    </div>
+    <script src="js/storage-service.js"></script>
+    <script src="js/gallery-service.js"></script>
+    <script src="js/gallery-controller.js"></script>
+    <script src="js/editor-service.js"></script>
+    <script src="js/editor-controller.js"></script>
+  </body>
+</html>
