@@ -167,10 +167,22 @@ h6 {
   box-shadow: 0px 5px 0px 0px rgba(0, 0, 0, 0.2);
 }
 
+.main-editor .controls input[type='text']:disabled {
+  background-color: #9c9c9c;
+}
+
 .main-editor .controls input[type='text']:focus,
 .main-editor .controls .rich-text select:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.main-editor .controls .text-scd {
+  margin-top: 20px;
+}
+
+.main-editor .controls .text-scd input {
+  margin: 0 5px;
 }
 
 .main-editor .controls .rich-text {
@@ -182,6 +194,9 @@ h6 {
 }
 
 .main-editor .controls .rich-text select {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  letter-spacing: 0.1rem;
   cursor: pointer;
   width: 187px;
   height: 50px;

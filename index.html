@@ -30,21 +30,27 @@
             <!-- <img src="" alt=""> -->
           </div>
           <div class="controls df dc ac">
-            <input type="text" onkeydown="onSetText(this)" onkeyup="onSetText(this)" />
+            <input type="text" class="main-input" onkeydown="onSetText(this)" onkeyup="onSetText(this)" />
+            <section class="text-scd">
+              <input type="image" src="img/ui/switch.png" alt="" onclick="onSwitchText()" />
+              <input type="image" src="img/ui/add.png" alt="" onclick="onAddText()" />
+              <input type="image" src="img/ui/remove.png" alt="" onclick="onRemoveText()" />
+            </section>
             <section class="rich-text">
               <div class="push df sb">
                 <input type="image" src="img/ui/aplus.png" alt="" onclick="onIncreaseFont()" />
                 <input type="image" src="img/ui/aminus.png" alt="" onclick="onDecreaseFont()" />
-                <input type="image" src="img/ui/left.png" alt="" onclick="onDecreaseFont()" />
-                <input type="image" src="img/ui/center.png" alt="" onclick="onDecreaseFont()" />
-                <input type="image" src="img/ui/right.png" alt="" onclick="onDecreaseFont()" />
+                <input type="image" src="img/ui/left.png" alt="" onclick="onAlignText('left')" />
+                <input type="image" src="img/ui/center.png" alt="" onclick="onAlignText('center')" />
+                <input type="image" src="img/ui/right.png" alt="" onclick="onAlignText('right')" />
               </div>
               <div class="df sb">
-                <select name="" id="">
-                  <option value="">font1</option>
-                  <option value="">font2</option>
-                  <option value="">font3</option>
-                  <option value="">font4</option>
+                <select style="font-family: Impact" onchange="onSelectFont(this)">
+                  <option value="Impact" style="font-family: Impact">IMPACT</option>
+                  <option value="Arial" style="font-family: Arial">ARIAL</option>
+                  <option value="Cambria" style="font-family: Cambria">CAMBRIA</option>
+                  <option value="Georgia" style="font-family: Goergia">GEORGIA</option>
+                  <option value="Verdana" style="font-family: Verdana">VERDANA</option>
                 </select>
                 <div class="palette pr dib">
                   <input type="image" src="img/ui/palette.png" alt="" />

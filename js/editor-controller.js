@@ -2,6 +2,7 @@
 
 const gEditor = document.querySelector('.main-editor');
 const gCanvas = document.querySelector('.main-canvas');
+const gInput = document.querySelector('.main-input');
 const gCtx = gCanvas.getContext('2d');
 
 function onRenderMeme() {
@@ -19,9 +20,9 @@ function onDrawText() {
   const meme = getMeme();
 
   meme.texts.forEach((text) => {
-    const { txt, size, align, color, strokeWidth, stroke, x, y } = text;
+    const { txt, size, align, color, strokeWidth, stroke, x, y, font } = text;
 
-    gCtx.font = `${size}px Arial`;
+    gCtx.font = `${size}px ${font}`;
     gCtx.textAlign = align;
     gCtx.fillStyle = color;
     gCtx.strokeStyle = stroke;
@@ -53,5 +54,30 @@ function onIncreaseFont() {
 
 function onDecreaseFont() {
   decreaseFont();
+  onRenderMeme();
+}
+
+function onAlignText(type) {
+  alignText(type);
+  onRenderMeme();
+}
+
+function onSelectFont(type) {
+  selectFont(type);
+  onRenderMeme();
+}
+
+function onSwitchText() {
+  switchText();
+  onRenderMeme();
+}
+
+function onAddText() {
+  addText();
+  onRenderMeme();
+}
+
+function onRemoveText() {
+  removeText();
   onRenderMeme();
 }

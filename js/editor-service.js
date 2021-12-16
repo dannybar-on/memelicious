@@ -3,14 +3,15 @@
 let gMeme;
 
 const gDefaults = {
-  x: 225,
-  y: 225,
+  x: 250,
+  y: 250,
   txt: 'Enter Text Here',
   size: 30,
   align: 'center',
   color: '#ffffff',
   stroke: '#000000',
   strokeWidth: 1,
+  font: 'Impact',
 };
 
 function createMeme(id) {
@@ -21,7 +22,7 @@ function createMeme(id) {
   };
 }
 
-function createText({ x, y, txt, size, align, color, stroke, strokeWidth }) {
+function createText({ x, y, txt, size, align, color, stroke, strokeWidth, font }) {
   return {
     x,
     y,
@@ -31,6 +32,7 @@ function createText({ x, y, txt, size, align, color, stroke, strokeWidth }) {
     color,
     stroke,
     strokeWidth,
+    font,
   };
 }
 
@@ -42,26 +44,97 @@ function selectImage(el) {
   gMeme = createMeme(+el.dataset.id);
 }
 
+function initEditor() {
+  gGallery.classList.add('dn');
+  gEditor.classList.remove('dn');
+  gEditor.classList.add('df');
+  gInput.value = gDefaults.txt;
+}
+
 function setText(text) {
-  gMeme.texts[0].txt = text;
+  if (gMeme.selectedTextIdx === -1) return;
+
+  gMeme.texts[gMeme.selectedTextIdx].txt = text;
 }
 
 function setFillColor(el) {
-  gMeme.texts[0].color = el.value;
+  if (gMeme.selectedTextIdx === -1) return;
+
+  gMeme.texts[gMeme.selectedTextIdx].color = el.value;
 }
 
 function setStrokeColor(el) {
-  gMeme.texts[0].stroke = el.value;
+  if (gMeme.selectedTextIdx === -1) return;
+
+  gMeme.texts[gMeme.selectedTextIdx].stroke = el.value;
 }
 
 function increaseFont() {
-  if (gMeme.texts[0].size > 75) return;
+  if (gMeme.selectedTextIdx === -1) return;
+  if (gMeme.texts[gMeme.selectedTextIdx].size > 75) return;
 
-  gMeme.texts[0].size++;
+  gMeme.texts[gMeme.selectedTextIdx].size++;
 }
 
 function decreaseFont() {
-  if (gMeme.texts[0].size < 10) return;
+  if (gMeme.selectedTextIdx === -1) return;
+  if (gMeme.texts[gMeme.selectedTextIdx].size < 10) return;
 
-  gMeme.texts[0].size--;
+  gMeme.texts[gMeme.selectedTextIdx].size--;
+}
+
+function alignText(type) {
+  if (gMeme.selectedTextIdx === -1) return;
+
+  switch (type) {
+    case 'left':
+      gMeme.texts[gMeme.selectedTextIdx].align = 'left';
+      gMeme.texts[gMeme.selectedTextIdx].x = 0;
+      break;
+    case 'center':
+      gMeme.texts[gMeme.selectedTextIdx].align = 'center';
+      gMeme.texts[gMeme.selectedTextIdx].x = gCanvas.width / 2;
+      break;
+    case 'right':
+      gMeme.texts[gMeme.selectedTextIdx].align = 'right';
+      gMeme.texts[gMeme.selectedTextIdx].x = gCanvas.width;
+      break;
+  }
+}
+
+function selectFont(type) {
+  if (gMeme.selectedTextIdx === -1) return;
+
+  gMeme.texts[gMeme.selectedTextIdx].font = type.value;
+  type.style.fontFamily = type.value;
+}
+
+function switchText() {
+  if (gMeme.selectedTextIdx === -1) return;
+
+  gMeme.selectedTextIdx = gMeme.selectedTextIdx === gMeme.texts.length - 1 ? 0 : gMeme.selectedTextIdx + 1;
+  gInput.value = gMeme.texts[gMeme.selectedTextIdx].txt;
+}
+
+function addText() {
+  if (gMeme.texts.length === 0) gInput.disabled = false;
+
+  gInput.value = gDefaults.txt;
+  gMeme.texts.push(createText(gDefaults));
+  gMeme.selectedTextIdx++;
+}
+
+function removeText() {
+  if (!gMeme.texts.length) return;
+
+  gMeme.texts.splice(gMeme.selectedTextIdx, 1);
+
+  if (gMeme.texts.length) {
+    gMeme.selectedTextIdx = 0;
+    gInput.value = gMeme.texts[gMeme.selectedTextIdx].txt;
+  } else {
+    gMeme.selectedTextIdx = -1;
+    gInput.value = '';
+    gInput.disabled = true;
+  }
 }

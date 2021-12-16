@@ -25,12 +25,6 @@ function getImages() {
   return gImages;
 }
 
-function initEditor() {
-  gEditor.classList.remove('dn');
-  gEditor.classList.add('df');
-  gGallery.classList.add('dn');
-}
-
 function setImageActive(el, type) {
   switch (type) {
     case 'active':
