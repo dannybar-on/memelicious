@@ -111,21 +111,25 @@ h6 {
   transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-/* MAIN GALLERY */
-.main-gallery {
+/* MAIN GALLERY & MEMES */
+.main-gallery,
+.main-memes {
   background-color: #373b41;
   border-radius: 1rem;
   padding: 20px;
+  color: #ffffff;
 }
 
-.main-gallery .selection {
+.main-gallery .selection,
+.main-memes .saved-memes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-auto-rows: 150px;
   gap: 20px;
 }
 
-.main-gallery .selection img {
+.main-gallery .selection img,
+.main-memes .saved-memes img {
   cursor: pointer;
   object-fit: cover;
   height: 100%;
@@ -134,21 +138,32 @@ h6 {
   box-shadow: 0px 6px 4px 0px rgba(0, 0, 0, 0.4);
 }
 
-.main-gallery .selection.selected img {
+.main-gallery .selection.selected img,
+.main-memes .saved-memes.selected img {
   opacity: 0.2;
 }
 
-.main-gallery .selection img.active {
+.main-gallery .selection img.active,
+.main-memes .saved-memes img.active {
   opacity: 1;
 }
 
 .main-gallery .selection img.active,
-.main-gallery .selection.selected img {
+.main-gallery .selection.selected img,
+.main-memes .saved-memes img.active,
+.main-memes .saved-memes.selected img {
   transition: opacity 0.2s ease-in-out;
 }
 
 /* MAIN EDITOR */
+.main-editor .main-canvas {
+  border-radius: 1.5rem;
+  border: 5px solid #373b41;
+  cursor: crosshair;
+}
+
 .main-editor .controls {
+  height: 510px;
   background-color: #373b41;
   border-radius: 1.5rem;
   padding: 20px 25px;
@@ -218,7 +233,8 @@ h6 {
 
 .main-editor .controls .palette:hover input[type='image'],
 .main-editor .controls input[type='image']:hover,
-.main-editor .controls .rich-text select:hover {
+.main-editor .controls .rich-text select:hover,
+.main-editor .controls .dns .dl-link:hover {
   opacity: 0.6;
   transition: opacity 0.2s ease-in-out;
 }
@@ -235,9 +251,51 @@ h6 {
   cursor: pointer;
 }
 
+.main-editor .controls .stickers {
+  background-color: #ffffff;
+  border-radius: 3rem;
+  padding: 7px 10px 3px;
+}
+
+.main-editor .controls .dns {
+  width: 350px;
+  margin-top: 20px;
+}
+
+.main-editor .controls .dns .download .dl-link.disabled {
+  cursor: not-allowed;
+  opacity: 0.2;
+}
+
+.main-editor .controls .dns .download .tooltip-text {
+  visibility: hidden;
+  width: 250px;
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 6px;
+  top: 100%;
+  left: 50%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-left: -125px;
+  position: absolute;
+  z-index: 10;
+}
+
+.main-editor .dns .download.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
+
 /* FOOTER */
 .main-footer {
-  margin: 10px 0;
+  margin: 15px 0;
   color: #cccccc;
   text-align: center;
+}
+
+.main-footer.active {
+  padding: 10px;
+  border-radius: 1.5rem;
+  background-color: #373b41;
 }

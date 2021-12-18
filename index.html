@@ -11,11 +11,11 @@
   <body onload="onInit()">
     <div class="main-layout">
       <header class="main-header df sb ac">
-        <a class="logo" href="index.html">Memelicious</a>
+        <a class="logo" href="#" onclick="onInitGallery(event)">Memelicious</a>
         <nav>
           <ul class="ln df">
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">Memes</a></li>
+            <li><a href="#" onclick="onInitGallery(event)">Gallery</a></li>
+            <li><a href="#" onclick="onInitMemes(event)">Memes</a></li>
             <li><a href="#">About</a></li>
           </ul>
         </nav>
@@ -24,11 +24,11 @@
         <div class="main-gallery">
           <div class="selection"></div>
         </div>
+        <div class="main-memes dn">
+          <div class="saved-memes"></div>
+        </div>
         <div class="main-editor dn sb">
-          <div>
-            <canvas class="main-canvas" width="500" height="500"></canvas>
-            <!-- <img src="" alt=""> -->
-          </div>
+          <canvas class="main-canvas" width="500" height="500"></canvas>
           <div class="controls df dc ac">
             <input type="text" class="main-input" onkeydown="onSetText(this)" onkeyup="onSetText(this)" />
             <section class="text-scd">
@@ -45,11 +45,11 @@
                 <input type="image" src="img/ui/right.png" alt="" onclick="onAlignText('right')" />
               </div>
               <div class="df sb">
-                <select style="font-family: Impact" onchange="onSelectFont(this)">
+                <select class="main-font" style="font-family: Impact" onchange="onSelectFont(this)">
                   <option value="Impact" style="font-family: Impact">IMPACT</option>
                   <option value="Arial" style="font-family: Arial">ARIAL</option>
                   <option value="Cambria" style="font-family: Cambria">CAMBRIA</option>
-                  <option value="Georgia" style="font-family: Goergia">GEORGIA</option>
+                  <option value="Georgia" style="font-family: Georgia">GEORGIA</option>
                   <option value="Verdana" style="font-family: Verdana">VERDANA</option>
                 </select>
                 <div class="palette pr dib">
@@ -62,6 +62,21 @@
                 </div>
               </div>
             </section>
+            <section class="stickers">
+              <input type="image" src="img/ui/madaf.png" alt="" onclick="onSelectSticker('madaf')" />
+              <input type="image" src="img/ui/lol.png" alt="" onclick="onSelectSticker('lol')" />
+              <input type="image" src="img/ui/omg.png" alt="" onclick="onSelectSticker('omg')" />
+              <input type="image" src="img/ui/fuckoff.png" alt="" onclick="onSelectSticker('fuckoff')" />
+            </section>
+            <section class="dns df sb">
+              <input type="image" width="165" height="43" src="img/ui/save.png" alt="" onclick="onClickSave()" />
+              <div class="download tooltip pr">
+                <a href="#" class="dl-link disabled" onclick="onClickDownload(this, event)">
+                  <img src="img/ui/download.png" width="165" height="43" alt="" />
+                </a>
+                <span class="tooltip-text">UNSELECT THE TEXT IN THE CANVAS TO DOWNLOAD</span>
+              </div>
+            </section>
           </div>
         </div>
       </main>
@@ -69,6 +84,7 @@
         <small>Memelicious © 2021 by <strong>Daniel Bar-on</strong>. All Rights Reserved.</small>
       </footer>
     </div>
+    <script src="js/utils-service.js"></script>
     <script src="js/storage-service.js"></script>
     <script src="js/gallery-service.js"></script>
     <script src="js/gallery-controller.js"></script>
