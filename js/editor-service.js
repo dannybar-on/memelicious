@@ -45,7 +45,12 @@ function initEditor(el) {
 function selectImage(el) {
   const dsID = el.dataset.id;
   const memes = loadFromStorage(KEY_MEMES);
-  const idx = findMatchingID(memes, dsID);
+
+  let idx = -1;
+
+  if (memes) {
+    idx = findMatchingID(memes, dsID);
+  }
 
   if (idx !== -1) {
     gMeme = memes[idx].gMeme;
@@ -492,13 +497,15 @@ function saveMeme() {
     gMeme,
   };
 
-  if (memes) gMemes = memes;
+  if (memes) {
+    gMemes = memes;
 
-  for (let i = 0; i < gMemes.length; i++) {
-    if (gMemes[i].id === currID) {
-      gMemes[i] = savedMeme;
-      saveToStorage(KEY_MEMES, gMemes);
-      return;
+    for (let i = 0; i < gMemes.length; i++) {
+      if (gMemes[i].id === currID) {
+        gMemes[i] = savedMeme;
+        saveToStorage(KEY_MEMES, gMemes);
+        return;
+      }
     }
   }
 

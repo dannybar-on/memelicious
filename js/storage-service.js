@@ -9,5 +9,5 @@ function saveToStorage(key, value) {
 function loadFromStorage(key) {
   const value = localStorage.getItem(key);
 
-  return JSON.parse(value);
+  return value === null ? false : JSON.parse(value);
 }
