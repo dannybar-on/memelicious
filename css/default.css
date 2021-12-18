@@ -67,12 +67,34 @@ h6 {
   padding: 0;
 }
 
+/* MAIN SCREEN */
+
+.main-screen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.6s;
+}
+
+body.menu-open .main-screen {
+  pointer-events: auto;
+  opacity: 1;
+}
+
 /* LAYOUT */
 .main-layout {
-  max-width: 980px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 /* HEADER */
@@ -84,7 +106,7 @@ h6 {
 }
 
 .main-header .logo {
-  font-size: 2.25rem;
+  font-size: 1.875rem;
   line-height: 2.25rem;
   text-decoration: none;
 }
@@ -96,28 +118,112 @@ h6 {
   text-decoration: none;
 }
 
-.main-header li + li {
-  margin-left: 35px;
+.main-nav ul {
+  position: fixed;
+  top: 0;
+  right: 0;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.9);
+  height: 100vh;
+  width: 200px;
+  transform: translateX(100%);
+  transition: transform 0.6s, box-shadow 0.6s;
 }
 
-.main-header li a {
-  padding: 5px 10px;
+body.menu-open .main-nav ul {
+  transform: translateX(0);
 }
 
-.main-header li a:hover {
-  color: #21ac91;
-  background-color: #ffffff;
-  border-radius: 1rem;
-  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+.main-nav a {
+  display: block;
+  text-align: center;
+  padding: 6px 10px;
+  transition: background-color 0.3s;
+}
+
+.main-header .main-nav a:hover {
+  text-decoration: none;
+  background-color: #eee;
+  color: inherit;
+}
+
+.main-header .mobile-ham {
+  border: 0;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #ffffff;
+  background-color: transparent;
 }
 
 /* MAIN GALLERY & MEMES */
 .main-gallery,
-.main-memes {
+.main-memes,
+.main-unavailable {
   background-color: #373b41;
   border-radius: 1rem;
   padding: 20px;
   color: #ffffff;
+}
+
+.main-unavailable {
+  display: none;
+}
+
+.main-gallery .top-bar {
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.main-gallery .top-bar .search-holder {
+  border-radius: 1.5rem;
+  padding: 10px 20px;
+  height: 50px;
+  background-color: #21252b;
+  flex-grow: 1;
+}
+
+.main-gallery .top-bar .search-holder input[type='search'] {
+  width: 100%;
+  border: 0;
+  background-color: inherit;
+  color: #ffffff;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  padding: 0 10px;
+}
+
+.main-gallery .top-bar .search-holder input[type='search']::placeholder {
+  color: #8d8e90;
+}
+
+.main-gallery .top-bar .search-holder input[type='search']:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.main-gallery .top-bar .search-holder input[type='image'] {
+  cursor: default;
+}
+
+.main-gallery .top-bar .demo-data {
+  display: none;
+  border-radius: 1.5rem;
+  padding: 10px 20px;
+  height: 50px;
+  background-color: #87898d;
+  flex-grow: 1;
+  gap: 15px;
+}
+
+.main-gallery .top-bar .demo-data .keyword-click {
+  cursor: pointer;
+  user-select: none;
+}
+
+.main-gallery .top-bar .demo-data .keyword-click:hover {
+  color: #21252b;
+  transition: color 0.2s ease-in-out;
 }
 
 .main-gallery .selection,
@@ -155,14 +261,66 @@ h6 {
   transition: opacity 0.2s ease-in-out;
 }
 
+/* MAIN ABOUT */
+.main-about .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 20;
+}
+
+.main-about .about-info {
+  position: fixed;
+  top: 50px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 1rem;
+  padding: 25px;
+  background-image: linear-gradient(to right, #0b96b9, #33bc6e);
+  color: #ffffff;
+  z-index: 30;
+  text-align: center;
+}
+
+.main-about .about-info h1 {
+  font-size: 3rem;
+  line-height: 1;
+  font-weight: bold;
+}
+
+.main-about .about-info p {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.main-about .about-info li {
+  margin: 0 15px;
+}
+
+.main-about .about-info a {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  color: #ffffff;
+}
+
+.main-about .about-info a:hover {
+  opacity: 0.5;
+  transition: opacity 0.2s ease-in-out;
+}
+
 /* MAIN EDITOR */
 .main-editor .main-canvas {
+  width: 510px;
   border-radius: 1.5rem;
   border: 5px solid #373b41;
   cursor: crosshair;
 }
 
 .main-editor .controls {
+  width: 405px;
   height: 510px;
   background-color: #373b41;
   border-radius: 1.5rem;
@@ -262,12 +420,14 @@ h6 {
   margin-top: 20px;
 }
 
-.main-editor .controls .dns .download .dl-link.disabled {
+.main-editor .controls .dns .download .dl-link.disabled,
+.main-editor .controls .dns .save .sv-link.disabled {
   cursor: not-allowed;
   opacity: 0.2;
 }
 
-.main-editor .controls .dns .download .tooltip-text {
+.main-editor .controls .dns .download .tooltip-text,
+.main-editor .controls .dns .save .tooltip-text {
   visibility: hidden;
   width: 250px;
   background-color: #000000;
@@ -283,7 +443,8 @@ h6 {
   z-index: 10;
 }
 
-.main-editor .dns .download.tooltip:hover .tooltip-text {
+.main-editor .dns .download.tooltip:hover .tooltip-text,
+.main-editor .dns .save.tooltip:hover .tooltip-text {
   visibility: visible;
 }
 
@@ -298,4 +459,80 @@ h6 {
   padding: 10px;
   border-radius: 1.5rem;
   background-color: #373b41;
+}
+
+@media (min-width: 768px) {
+  .main-gallery .top-bar .demo-data {
+    display: flex;
+  }
+
+  .main-header .logo {
+    font-size: 2.25rem;
+    line-height: 2.25rem;
+    text-decoration: none;
+  }
+  .main-header .mobile-ham {
+    display: none;
+  }
+
+  .main-nav ul {
+    position: unset;
+    position: unset;
+    top: unset;
+    right: unset;
+    flex-direction: unset;
+    background-color: unset;
+    height: unset;
+    width: unset;
+    transform: unset;
+    transition: unset;
+  }
+
+  body.menu-open .main-nav ul {
+    transform: unset;
+  }
+
+  .main-header li + li {
+    margin-left: 35px;
+  }
+
+  .main-header li a {
+    padding: 5px 10px;
+    transition: unset;
+  }
+
+  .main-header .main-nav a:hover {
+    color: #21ac91;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  }
+}
+
+@media (max-width: 542px) {
+  .main-editor {
+    display: none;
+  }
+
+  body.unavailable .main-unavailable {
+    display: block;
+  }
+}
+
+@media (max-width: 960px) {
+  .main-editor {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .main-editor .controls {
+    width: 510px;
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 980px) {
+  .main-layout {
+    max-width: 980px;
+  }
 }

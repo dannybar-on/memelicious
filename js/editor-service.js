@@ -10,6 +10,8 @@ const gFont = document.querySelector('.main-font');
 const gFooter = document.querySelector('.main-footer');
 const gDownload = document.querySelector('.download');
 const gDlLink = document.querySelector('.dl-link');
+const gSave = document.querySelector('.save');
+const gSvLink = document.querySelector('.sv-link');
 const gCtx = gCanvas.getContext('2d');
 
 const gMouse = {
@@ -33,6 +35,7 @@ const gDefaults = {
   adjust: 0,
   sticker: '',
   isSticker: false,
+  isNewText: true,
 };
 
 function initEditor(el) {
@@ -67,8 +70,11 @@ function selectImage(el) {
   } else {
     gMeme = createMeme(+el.dataset.id);
     currID = makeId();
-    gInput.value = gDefaults.txt;
+    gInput.value = '';
+    gInput.placeholder = gDefaults.txt;
     gInput.disabled = false;
+    gFont.value = gDefaults.font;
+    gFont.style.fontFamily = gDefaults.font;
   }
 
   gMeme.texts[gMeme.selectedTextIdx].isActive = true;
@@ -86,7 +92,7 @@ function createMeme(id) {
   };
 }
 
-function createText({ x, y, txt, width, size, align, color, stroke, strokeWidth, font, isActive, adjust, sticker, isSticker }) {
+function createText({ x, y, txt, width, size, align, color, stroke, strokeWidth, font, isActive, adjust, sticker, isSticker, isNewText }) {
   return {
     x,
     y,
@@ -102,6 +108,7 @@ function createText({ x, y, txt, width, size, align, color, stroke, strokeWidth,
     adjust,
     sticker,
     isSticker,
+    isNewText,
   };
 }
 
@@ -109,6 +116,7 @@ function loadEditor() {
   gEditor.classList.remove('dn');
   gEditor.classList.add('df');
   gFooter.classList.add('active');
+  document.body.classList.add('unavailable');
 
   updateActive();
 }
@@ -260,6 +268,7 @@ function handleMouseDown(ev) {
   gMouse.y = ev.clientY - rect.top;
 
   gMeme.selectedTextIdx = -1;
+  gInput.placeholder = '';
   gInput.value = '';
   gInput.disabled = true;
   gFont.value = gDefaults.font;
@@ -268,7 +277,15 @@ function handleMouseDown(ev) {
   for (let i = 0; i < gMeme.texts.length; i++) {
     if (getTextCollision(gMouse.x - 5, gMouse.y - 5, i)) {
       gMeme.selectedTextIdx = i;
-      gInput.value = gMeme.texts[i].txt;
+
+      if (gMeme.texts[i].isNewText) {
+        gInput.value = '';
+        gInput.placeholder = gMeme.texts[i].txt;
+      } else {
+        gInput.value = gMeme.texts[i].txt;
+        gInput.placeholder = '';
+      }
+
       gMouse.isPressed = true;
       gFont.value = gMeme.texts[i].font;
       gFont.style.fontFamily = gMeme.texts[i].font;
@@ -318,14 +335,19 @@ function updateActive() {
   if (gMeme.selectedTextIdx === -1) {
     gDownload.classList.remove('tooltip');
     gDlLink.classList.remove('disabled');
+    gSave.classList.remove('tooltip');
+    gSvLink.classList.remove('disabled');
   } else {
     gDownload.classList.add('tooltip');
     gDlLink.classList.add('disabled');
+    gSave.classList.add('tooltip');
+    gSvLink.classList.add('disabled');
   }
 }
 
 function setText(text) {
   if (gMeme.selectedTextIdx === -1) return;
+  if (gMeme.texts[gMeme.selectedTextIdx].isNewText) gMeme.texts[gMeme.selectedTextIdx].isNewText = false;
 
   gMeme.texts[gMeme.selectedTextIdx].txt = text;
 }
@@ -334,9 +356,16 @@ function switchText() {
   if (!gMeme.texts.length) return;
 
   gMeme.selectedTextIdx = gMeme.selectedTextIdx === gMeme.texts.length - 1 ? 0 : gMeme.selectedTextIdx + 1;
-  gInput.value = gMeme.texts[gMeme.selectedTextIdx].txt;
   gFont.value = gMeme.texts[gMeme.selectedTextIdx].font;
   gFont.style.fontFamily = gMeme.texts[gMeme.selectedTextIdx].font;
+
+  if (gMeme.texts[gMeme.selectedTextIdx].isNewText) {
+    gInput.value = '';
+    gInput.placeholder = gMeme.texts[gMeme.selectedTextIdx].txt;
+  } else {
+    gInput.value = gMeme.texts[gMeme.selectedTextIdx].txt;
+    gInput.placeholder = '';
+  }
 
   if (gMeme.texts[gMeme.selectedTextIdx].isSticker) {
     gInput.value = '';
@@ -351,9 +380,17 @@ function switchText() {
 function addText() {
   if (gMeme.texts.length === 0) gInput.disabled = false;
 
-  gInput.value = gDefaults.txt;
   gMeme.texts.push(createText(gDefaults));
   gMeme.selectedTextIdx = gMeme.texts.length - 1;
+
+  if (gMeme.texts[gMeme.selectedTextIdx].isNewText) {
+    gInput.value = '';
+    gInput.placeholder = gMeme.texts[gMeme.selectedTextIdx].txt;
+  } else {
+    gInput.value = gMeme.texts[gMeme.selectedTextIdx].txt;
+    gInput.placeholder = '';
+  }
+
   gInput.disabled = false;
   gFont.value = gMeme.texts[gMeme.selectedTextIdx].font;
   gFont.style.fontFamily = gMeme.texts[gMeme.selectedTextIdx].font;
@@ -373,13 +410,22 @@ function removeText() {
 
     if (gMeme.texts[gMeme.selectedTextIdx].isSticker) {
       gInput.value = '';
+      gInput.placeholder = '';
       gInput.disabled = true;
     } else {
       gInput.disabled = false;
-      gInput.value = gMeme.texts[gMeme.selectedTextIdx].txt;
+
+      if (gMeme.texts[gMeme.selectedTextIdx].isNewText) {
+        gInput.value = '';
+        gInput.placeholder = gMeme.texts[gMeme.selectedTextIdx].txt;
+      } else {
+        gInput.value = gMeme.texts[gMeme.selectedTextIdx].txt;
+        gInput.placeholder = '';
+      }
     }
   } else {
     gMeme.selectedTextIdx = -1;
+    gInput.placeholder = '';
     gInput.value = '';
     gInput.disabled = true;
     gFont.value = gDefaults.font;
@@ -478,8 +524,10 @@ function selectSticker(type) {
   s.isSticker = true;
   s.width = 80;
   s.size = 80;
+  s.isNewText = false;
   gMeme.texts.push(s);
   gMeme.selectedTextIdx = gMeme.texts.length - 1;
+  gInput.placeholder = '';
   gInput.value = '';
   gInput.disabled = true;
   gFont.value = gMeme.texts[gMeme.selectedTextIdx].font;
@@ -489,6 +537,8 @@ function selectSticker(type) {
 }
 
 function saveMeme() {
+  if (gMeme.selectedTextIdx !== -1) return;
+
   const memes = loadFromStorage(KEY_MEMES);
   const savedMemeImg = gCanvas.toDataURL('image/jpeg');
   const savedMeme = {

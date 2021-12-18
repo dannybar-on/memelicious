@@ -9,24 +9,60 @@
     <link rel="stylesheet" href="css/default.css" />
   </head>
   <body onload="onInit()">
+    <div class="main-screen" onclick="onToggleMenu()"></div>
     <div class="main-layout">
       <header class="main-header df sb ac">
         <a class="logo" href="#" onclick="onInitGallery(event)">Memelicious</a>
-        <nav>
+        <nav class="main-nav">
           <ul class="ln df">
             <li><a href="#" onclick="onInitGallery(event)">Gallery</a></li>
             <li><a href="#" onclick="onInitMemes(event)">Memes</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="#" onclick="onInitAbout(event)">About</a></li>
           </ul>
+          <button class="mobile-ham" onclick="onToggleMenu()">☰</button>
         </nav>
       </header>
       <main>
         <div class="main-gallery">
+          <div class="top-bar df sb">
+            <div class="search-holder df">
+              <input
+                type="search"
+                class="search-input"
+                list="auto-list"
+                placeholder="Search"
+                onkeydown="onSearchKeyword(this)"
+                onkeyup="onSearchKeyword(this)"
+              />
+              <datalist id="auto-list"></datalist>
+              <input type="image" src="img/ui/search.png" alt="" />
+            </div>
+            <div class="demo-data df ac jc"></div>
+          </div>
           <div class="selection"></div>
         </div>
         <div class="main-memes dn">
           <div class="saved-memes"></div>
         </div>
+        <div class="main-about dn jc">
+          <div class="overlay" onclick="onHideAbout()"></div>
+          <div class="about-info">
+            <h1>Memelicious by Daniel Bar-on</h1>
+            <p>This is a meme generator edtior with dynamic save, and many cool features.</p>
+            <ul class="ln df jc">
+              <li>
+                <a href="https://www.facebook.com/daniel.baron.1694" target="_blank"><i class="fab fa-facebook-square"></i></a>
+              </li>
+              <li>
+                <a href="https://github.com/dannybar-on" target="_blank"><i class="fab fa-github-square"></i></a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/in/daniel-bar-on-b76059218/" target="_blank"><i class="fab fa-linkedin"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="main-unavailable">This resolution is not supported.</div>
         <div class="main-editor dn sb">
           <canvas class="main-canvas" width="500" height="500"></canvas>
           <div class="controls df dc ac">
@@ -69,7 +105,10 @@
               <input type="image" src="img/ui/fuckoff.png" alt="" onclick="onSelectSticker('fuckoff')" />
             </section>
             <section class="dns df sb">
-              <input type="image" width="165" height="43" src="img/ui/save.png" alt="" onclick="onClickSave()" />
+              <div class="save tooltip pr">
+                <input class="sv-link disabled" type="image" width="165" height="43" src="img/ui/save.png" alt="" onclick="onClickSave()" />
+                <span class="tooltip-text">UNSELECT THE TEXT IN THE CANVAS TO SAVE</span>
+              </div>
               <div class="download tooltip pr">
                 <a href="#" class="dl-link disabled" onclick="onClickDownload(this, event)">
                   <img src="img/ui/download.png" width="165" height="43" alt="" />
